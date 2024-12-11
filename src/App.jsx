@@ -1,5 +1,4 @@
-import { CircleX, ShoppingCart } from "lucide-react";
-import { useState } from "react";
+import { CircleMinus, CirclePlus, CircleX } from "lucide-react";
 
 const products = [
   {
@@ -104,43 +103,25 @@ const products = [
 ];
 
 function App() {
-  const [addToCart, setAddToCart] = useState([]);
-  console.log(addToCart);
-
-  const handlerAddToCart = (product) => {
-    setAddToCart((curr) => {
-      // Periksa apakah produk sudah ada di keranjang
-      const existingProduct = curr.find((p) => p.id === product.id);
-
-      return existingProduct
-        ? curr.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          )
-        : [...curr, { ...product, quantity: 1 }];
-    });
-  };
-
   return (
     <>
       <div className="flex w-4/5 mx-auto gap-10 my-10">
-        <ProductList onAddToCart={handlerAddToCart} addToCart={addToCart} />
+        <ProductList />
         <CartProduct />
       </div>
     </>
   );
 }
 
-function ProductList({ onAddToCart, addToCart }) {
+function ProductList() {
   return (
     <div>
       <h1 className="text-4xl mb-10 font-bold">Desserts</h1>
-      <ProductItem onAddToCart={onAddToCart} addToCart={addToCart} />
+      <ProductItem />
     </div>
   );
 }
-function ProductItem({ onAddToCart, addToCart }) {
+function ProductItem() {
   return (
     <div className="grid grid-cols-3 gap-8">
       {products.map((product) => (
@@ -149,19 +130,19 @@ function ProductItem({ onAddToCart, addToCart }) {
             <img
               src={product.images.desktop}
               alt={product.category}
-              className={`rounded-xl ${
-                addToCart?.some((item) => item.id === product.id)
-                  ? "border-[3px] border-[#C73A0F]"
-                  : ""
-              }`}
+              className={`rounded-xl `}
             />
-            <Button
-              className={`absolute -bottom-5 left-1/2 -translate-x-1/2 border border-black bg-white rounded-full flex justify-center items-center w-40 gap-2`}
-              onClick={() => onAddToCart(product)}
+            <span
+              className={`absolute -bottom-5 left-1/2 -translate-x-1/2  rounded-full flex justify-center items-center w-40 gap-2 bg-[#C73A0F] text-white`}
             >
-              <ShoppingCart size={20} color="#C73A0F" />
-              Add to Cart
-            </Button>
+              <Button>
+                <CircleMinus size={20} />
+              </Button>
+              <span>5</span>
+              <Button>
+                <CirclePlus size={20} />
+              </Button>
+            </span>
           </div>
           <h1 className="font-semibold text-lg">{product.name}</h1>
           <p className="mb-2 text-sm">{product.category}</p>
