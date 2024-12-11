@@ -41,6 +41,56 @@ const products = [
     category: "French Dessert",
     price: 8.5,
   },
+  {
+    id: 5,
+    name: "Macaron Mix of Five",
+    images: {
+      desktop: "image-macaron-desktop.jpg",
+      thumbnail: "image-macaron-thumbnail.jpg",
+    },
+    category: "French Pastry",
+    price: 12.99,
+  },
+  {
+    id: 6,
+    name: "Lemon Meringue Pie",
+    images: {
+      desktop: "image-meringue-desktop.jpg",
+      thumbnail: "image-meringue-thumbnail.jpg",
+    },
+    category: "Italian Dessert",
+    price: 6.5,
+  },
+  {
+    id: 7,
+    name: "Vanilla Panna Cotta",
+    images: {
+      desktop: "image-panna-cotta-desktop.jpg",
+      thumbnail: "image-panna-cotta-thumbnail.jpg",
+    },
+    category: "Italian Dessert",
+    price: 7.99,
+  },
+  {
+    id: 8,
+    name: "Classic Tiramisu",
+    images: {
+      desktop: "image-tiramisu-desktop.jpg",
+      thumbnail: "image-tiramisu-thumbnail.jpg",
+    },
+    category: "Italian Dessert",
+    price: 9.99,
+  },
+  {
+    id: 9,
+    name: "Waffle with Berries",
+    images: {
+      desktop: "image-waffle-desktop.jpg",
+      thumbnail: "image-waffle-thumbnail.jpg",
+    },
+    category: "Belgian Dessert",
+    price: 5.5,
+  },
 ];
 
 function App() {
@@ -85,8 +135,8 @@ function ProductItem() {
 
 function CartProduct() {
   return (
-    <div className="flex-1">
-      <div className="bg-white p-5 rounded-xl ">
+    <div className="flex-1 relative">
+      <div className="bg-white p-6 rounded-xl sticky top-10">
         <h1 className="text-2xl font-semibold text-[#C73A0F] mb-5">
           You Cart(1)
         </h1>
