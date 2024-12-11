@@ -1,5 +1,4 @@
 import { CircleMinus, CirclePlus, CircleX } from "lucide-react";
-import { useState } from "react";
 
 const products = [
   {
@@ -122,7 +121,7 @@ function ProductList() {
     </div>
   );
 }
-function ProductItem({ onAddToCart, addToCart }) {
+function ProductItem() {
   return (
     <div className="grid grid-cols-3 gap-8">
       {products.map((product) => (
@@ -131,25 +130,15 @@ function ProductItem({ onAddToCart, addToCart }) {
             <img
               src={product.images.desktop}
               alt={product.category}
-              className={`rounded-xl ${
-                addToCart?.some((item) => item.id === product.id)
-                  ? "border-[3px] border-[#C73A0F]"
-                  : ""
-              }`}
+              className={`rounded-xl `}
             />
             <span
-              className={`absolute -bottom-5 left-1/2 -translate-x-1/2  rounded-full flex justify-center items-center w-40 gap-2`}
+              className={`absolute -bottom-5 left-1/2 -translate-x-1/2  rounded-full flex justify-center items-center w-40 gap-2 bg-[#C73A0F] text-white`}
             >
-              <Button
-                onClick={() => onAddToCart(product)}
-                className={
-                  addToCart.some((item) => item.id === product.id)
-                    ? "bg-[#C73A0F]"
-                    : "border border-black bg-white"
-                }
-              >
+              <Button>
                 <CircleMinus size={20} />
               </Button>
+              <span>5</span>
               <Button>
                 <CirclePlus size={20} />
               </Button>
