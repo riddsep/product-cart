@@ -46,7 +46,7 @@ const products = [
 function App() {
   return (
     <>
-      <div className="flex w-4/5 mx-auto gap-16 my-10 font-geist">
+      <div className="flex w-4/5 mx-auto gap-16 my-10">
         <ProductList />
         <CartProduct />
       </div>
@@ -85,13 +85,15 @@ function ProductItem() {
 
 function CartProduct() {
   return (
-    <div className="flex-1">
-      <h1 className="text-2xl font-semibold text-[#C73A0F]">You Cart(1)</h1>
-      <div>
-        <h1>Brownie</h1>
-        <span>2x</span>
-        <span>$7.00</span>
-        <span>$14.00</span>
+    <div className="flex-1 ">
+      <div className="bg-white p-5 rounded-xl ">
+        <h1 className="text-2xl font-semibold text-[#C73A0F]">You Cart(1)</h1>
+        <div>
+          <h1>Brownie</h1>
+          <span>2x</span>
+          <span>$7.00</span>
+          <span>$14.00</span>
+        </div>
       </div>
     </div>
   );
