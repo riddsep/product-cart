@@ -1,4 +1,5 @@
 import { CircleX, ShoppingCart } from "lucide-react";
+import { useState } from "react";
 
 const products = [
   {
@@ -10,6 +11,7 @@ const products = [
     },
     category: "Middle Eastern Pastry",
     price: 15.99,
+    quantity: 3,
   },
   {
     id: 2,
@@ -20,6 +22,7 @@ const products = [
     },
     category: "Chocolate Dessert",
     price: 3.99,
+    quantity: 5,
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ const products = [
     },
     category: "Layered Cake",
     price: 20.0,
+    quantity: 2,
   },
   {
     id: 4,
@@ -40,6 +44,7 @@ const products = [
     },
     category: "French Dessert",
     price: 8.5,
+    quantity: 4,
   },
   {
     id: 5,
@@ -50,6 +55,7 @@ const products = [
     },
     category: "French Pastry",
     price: 12.99,
+    quantity: 6,
   },
   {
     id: 6,
@@ -60,6 +66,7 @@ const products = [
     },
     category: "Italian Dessert",
     price: 6.5,
+    quantity: 1,
   },
   {
     id: 7,
@@ -70,6 +77,7 @@ const products = [
     },
     category: "Italian Dessert",
     price: 7.99,
+    quantity: 2,
   },
   {
     id: 8,
@@ -80,6 +88,7 @@ const products = [
     },
     category: "Italian Dessert",
     price: 9.99,
+    quantity: 3,
   },
   {
     id: 9,
@@ -90,43 +99,75 @@ const products = [
     },
     category: "Belgian Dessert",
     price: 5.5,
+    quantity: 7,
   },
 ];
 
 function App() {
+  const [addToCart, setAddToCart] = useState([]);
+  console.log(addToCart);
+
+  const handlerAddToCart = (product) => {
+    setAddToCart((curr) => {
+      // Periksa apakah produk sudah ada di keranjang
+      const existingProduct = curr.find((p) => p.id === product.id);
+
+      return existingProduct
+        ? curr.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        : [...curr, { ...product, quantity: 1 }];
+    });
+  };
+
   return (
     <>
       <div className="flex w-4/5 mx-auto gap-10 my-10">
-        <ProductList />
+        <ProductList onAddToCart={handlerAddToCart} addToCart={addToCart} />
         <CartProduct />
       </div>
     </>
   );
 }
 
-function ProductList() {
+function ProductList({ onAddToCart, addToCart }) {
   return (
     <div>
       <h1 className="text-4xl mb-10 font-bold">Desserts</h1>
-      <ProductItem />
+      <ProductItem onAddToCart={onAddToCart} addToCart={addToCart} />
     </div>
   );
 }
-function ProductItem() {
+function ProductItem({ onAddToCart, addToCart }) {
   return (
     <div className="grid grid-cols-3 gap-8">
-      {products.map(({ id, name, images, category, price }) => (
-        <div key={id} className="max-w-64">
+      {products.map((product) => (
+        <div key={product.id} className="max-w-64">
           <div className="relative w-full mb-8 ">
-            <img src={images.desktop} alt={category} className="rounded-xl" />
-            <Button className="absolute -bottom-5 left-1/2 -translate-x-1/2 border border-black bg-white rounded-full flex justify-center items-center w-40 gap-2">
+            <img
+              src={product.images.desktop}
+              alt={product.category}
+              className={`rounded-xl ${
+                addToCart?.some((item) => item.id === product.id)
+                  ? "border-[3px] border-[#C73A0F]"
+                  : ""
+              }`}
+            />
+            <Button
+              className={`absolute -bottom-5 left-1/2 -translate-x-1/2 border border-black bg-white rounded-full flex justify-center items-center w-40 gap-2`}
+              onClick={() => onAddToCart(product)}
+            >
               <ShoppingCart size={20} color="#C73A0F" />
               Add to Cart
             </Button>
           </div>
-          <h1 className="font-semibold text-lg">{name}</h1>
-          <p className="mb-2 text-sm">{category}</p>
-          <p className="font-bold text-[#C73A0F]">${price.toFixed(2)}</p>
+          <h1 className="font-semibold text-lg">{product.name}</h1>
+          <p className="mb-2 text-sm">{product.category}</p>
+          <p className="font-bold text-[#C73A0F]">
+            ${product.price.toFixed(2)}
+          </p>
         </div>
       ))}
     </div>
