@@ -4,6 +4,6 @@
 
 @layer base {
   body {
-    @apply font-geist bg-rose-50;
+    @apply font-geist bg-[#FCF9F7];
   }
 }

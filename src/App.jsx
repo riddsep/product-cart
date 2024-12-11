@@ -1,4 +1,4 @@
-import { ShoppingCart } from "lucide-react";
+import { CircleX, ShoppingCart } from "lucide-react";
 
 const products = [
   {
@@ -46,7 +46,7 @@ const products = [
 function App() {
   return (
     <>
-      <div className="flex w-4/5 mx-auto gap-16 my-10">
+      <div className="flex w-4/5 mx-auto gap-10 my-10">
         <ProductList />
         <CartProduct />
       </div>
@@ -85,22 +85,52 @@ function ProductItem() {
 
 function CartProduct() {
   return (
-    <div className="flex-1 ">
+    <div className="flex-1">
       <div className="bg-white p-5 rounded-xl ">
-        <h1 className="text-2xl font-semibold text-[#C73A0F]">You Cart(1)</h1>
-        <div>
-          <h1>Brownie</h1>
-          <span>2x</span>
-          <span>$7.00</span>
-          <span>$14.00</span>
+        <h1 className="text-2xl font-semibold text-[#C73A0F] mb-5">
+          You Cart(1)
+        </h1>
+        <div className="flex justify-between items-center border-b py-2">
+          <div>
+            <h1 className="text-sm font-semibold">Vanilla Bean Crème Brûlée</h1>
+            <span className="mr-2 text-sm font-semibold text-[#C73A0F]">
+              2x
+            </span>
+            <span className="mr-2 text-sm font-thin">@ $7.00</span>
+            <span className=" text-sm">$14.00</span>
+          </div>
+          <button>
+            <CircleX color="#C73A0F" strokeWidth={1.2} />
+          </button>
         </div>
+
+        <Total />
+        <Button
+          className={
+            "bg-[#C73A0F] text-white w-full rounded-full hover:bg-[#a7310d]"
+          }
+        >
+          Confirm Order
+        </Button>
       </div>
     </div>
   );
 }
 
-function Button({ children, className }) {
-  return <button className={`px-4 py-2 ${className}`}>{children}</button>;
+function Total() {
+  return (
+    <div className="flex justify-between items-center py-2 mb-5">
+      <h1 className="text-xl font-semibold">Total</h1>
+      <span className="mr-2  font-semibold text-[#C73A0F] text-xl">$14.00</span>
+    </div>
+  );
+}
+function Button({ children, className, onClick }) {
+  return (
+    <button className={`px-4 py-2 ${className}`} onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default App;
