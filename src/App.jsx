@@ -1,4 +1,5 @@
 import { CircleMinus, CirclePlus, CircleX } from "lucide-react";
+import { useState } from "react";
 
 const products = [
   {
@@ -10,7 +11,7 @@ const products = [
     },
     category: "Middle Eastern Pastry",
     price: 15.99,
-    quantity: 3,
+    stock: 3,
   },
   {
     id: 2,
@@ -21,7 +22,7 @@ const products = [
     },
     category: "Chocolate Dessert",
     price: 3.99,
-    quantity: 5,
+    stock: 5,
   },
   {
     id: 3,
@@ -32,7 +33,7 @@ const products = [
     },
     category: "Layered Cake",
     price: 20.0,
-    quantity: 2,
+    stock: 2,
   },
   {
     id: 4,
@@ -43,7 +44,7 @@ const products = [
     },
     category: "French Dessert",
     price: 8.5,
-    quantity: 4,
+    stock: 4,
   },
   {
     id: 5,
@@ -54,7 +55,7 @@ const products = [
     },
     category: "French Pastry",
     price: 12.99,
-    quantity: 6,
+    stock: 6,
   },
   {
     id: 6,
@@ -65,7 +66,7 @@ const products = [
     },
     category: "Italian Dessert",
     price: 6.5,
-    quantity: 1,
+    stock: 1,
   },
   {
     id: 7,
@@ -76,7 +77,7 @@ const products = [
     },
     category: "Italian Dessert",
     price: 7.99,
-    quantity: 2,
+    stock: 2,
   },
   {
     id: 8,
@@ -87,7 +88,7 @@ const products = [
     },
     category: "Italian Dessert",
     price: 9.99,
-    quantity: 3,
+    stock: 3,
   },
   {
     id: 9,
@@ -98,30 +99,66 @@ const products = [
     },
     category: "Belgian Dessert",
     price: 5.5,
-    quantity: 7,
+    stock: 7,
   },
 ];
 
 function App() {
+  const [addToCart, setAddToCart] = useState([]);
+  console.log(addToCart);
+  console.log(products);
+
+  const handlerAddToCart = (product) => {
+    setAddToCart((currProduct) => {
+      const existing = currProduct.find((item) => item.id === product.id);
+
+      return existing
+        ? currProduct.map((item) =>
+            item.id === product.id && item.quantity < product.stock
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        : [...currProduct, { id: product.id, name: product.name, quantity: 1 }];
+    });
+  };
+
+  const handlerRemoveFromCart = (product) => {
+    setAddToCart((currProduct) =>
+      currProduct.map((item) =>
+        item.quantity !== 0 && item.id === product.id
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
   return (
     <>
       <div className="flex w-4/5 mx-auto gap-10 my-10">
-        <ProductList />
+        <ProductList
+          onAddToCart={handlerAddToCart}
+          addToCart={addToCart}
+          onRemove={handlerRemoveFromCart}
+        />
         <CartProduct />
       </div>
     </>
   );
 }
 
-function ProductList() {
+function ProductList({ onAddToCart, addToCart, onRemove }) {
   return (
     <div>
       <h1 className="text-4xl mb-10 font-bold">Desserts</h1>
-      <ProductItem />
+      <ProductItem
+        onAddToCart={onAddToCart}
+        addToCart={addToCart}
+        onRemove={onRemove}
+      />
     </div>
   );
 }
-function ProductItem() {
+function ProductItem({ onAddToCart, addToCart, onRemove = { onRemove } }) {
   return (
     <div className="grid grid-cols-3 gap-8">
       {products.map((product) => (
@@ -130,16 +167,23 @@ function ProductItem() {
             <img
               src={product.images.desktop}
               alt={product.category}
-              className={`rounded-xl `}
+              className={`rounded-xl  ${
+                addToCart.some((item) => item.id === product.id)
+                  ? "border-[3px] border-[#C73A0F]"
+                  : ""
+              }`}
             />
             <span
-              className={`absolute -bottom-5 left-1/2 -translate-x-1/2  rounded-full flex justify-center items-center w-40 gap-2 bg-[#C73A0F] text-white`}
+              className={`absolute -bottom-5 left-1/2 -translate-x-1/2 rounded-full flex justify-center items-center w-40 gap-2 bg-[#C73A0F] text-white`}
             >
-              <Button>
+              <Button onClick={() => onRemove(product)}>
                 <CircleMinus size={20} />
               </Button>
-              <span>5</span>
-              <Button>
+              <span>
+                {addToCart.find((item) => item.id === product.id)?.quantity ||
+                  0}
+              </span>
+              <Button onClick={() => onAddToCart(product)}>
                 <CirclePlus size={20} />
               </Button>
             </span>
