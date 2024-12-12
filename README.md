@@ -44,13 +44,13 @@ Proyek ini adalah sebuah aplikasi belanja sederhana untuk dessert yang memungkin
 1. **Clone repositori:**
 
    ```bash
-   git clone [URL_REPOSITORY]
+   git clone https://github.com/riddsep/product-cart.git
    ```
 
 2. **Masuk ke direktori proyek:**
 
    ```bash
-   cd [NAMA_DIREKTORI]
+   cd product-cart
    ```
 
 3. **Install dependensi:**
@@ -62,11 +62,8 @@ Proyek ini adalah sebuah aplikasi belanja sederhana untuk dessert yang memungkin
 4. **Jalankan aplikasi:**
 
    ```bash
-   npm start
+   npm run dev
    ```
-
-5. **Buka aplikasi di browser:**
-   Navigasikan ke `http://localhost:3000` di browser Anda.
 
 # Cara Menggunakan
 
