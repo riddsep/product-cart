@@ -94,4 +94,4 @@ Proyek ini adalah sebuah aplikasi belanja sederhana untuk dessert yang memungkin
 
 # Kontributor
 
-- **Nama:** [Rido Septiawan]
+- **Nama:** Rido Septiawan
