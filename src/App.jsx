@@ -156,9 +156,7 @@ function App() {
       })
     );
     setAddToCart([]);
-    setTimeout(() => {
-      setShowModal(false);
-    }, 3000);
+    setShowModal(false);
   };
 
   return (
