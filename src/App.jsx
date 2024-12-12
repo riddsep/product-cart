@@ -110,6 +110,7 @@ function App() {
   console.log(addToCart);
 
   const handlerAddToCart = (product) => {
+    if (!product.stock) return;
     setAddToCart((currProduct) => {
       const existing = currProduct.find((item) => item.id === product.id);
 
@@ -210,10 +211,12 @@ function ProductItem({ onAddToCart, addToCart, onRemove, products }) {
                 addToCart.some((item) => item.id === product.id)
                   ? "border-[3px] border-[#C73A0F]"
                   : ""
-              }`}
+              } ${product.stock === 0 ? "grayscale" : ""}`}
             />
             <span
-              className={`absolute -bottom-5 left-1/2 -translate-x-1/2 rounded-full flex justify-center items-center w-40 gap-2 bg-[#C73A0F] text-white`}
+              className={`${
+                product.stock === 0 ? "grayscale" : ""
+              } absolute -bottom-5 left-1/2 -translate-x-1/2 rounded-full flex justify-center items-center w-40 gap-2 bg-[#C73A0F] text-white`}
             >
               <Button onClick={() => onRemove(product)}>
                 <CircleMinus size={20} />
@@ -240,6 +243,7 @@ function ProductItem({ onAddToCart, addToCart, onRemove, products }) {
 }
 
 function CartProduct({ addToCart, setShowModal }) {
+  const isCartEmpty = addToCart.length === 0;
   return (
     <div className="flex-1 relative">
       <div className="bg-white p-6 rounded-xl sticky top-10">
@@ -247,6 +251,12 @@ function CartProduct({ addToCart, setShowModal }) {
           You Cart(
           {addToCart.reduce((acc, curr) => (acc += curr.quantity), 0)})
         </h1>
+        {isCartEmpty && (
+          <div className="grid place-items-center">
+            <img src="illustration-empty-cart.svg" />
+            <h1>Your added items will appear here</h1>
+          </div>
+        )}
         {addToCart.map((product) => (
           <div
             className="flex justify-between items-center border-b py-2"
@@ -270,15 +280,17 @@ function CartProduct({ addToCart, setShowModal }) {
           </div>
         ))}
 
-        <Total addToCart={addToCart} />
-        <Button
-          className={
-            "bg-[#C73A0F] text-white w-full rounded-full hover:bg-[#a7310d]"
-          }
-          onClick={setShowModal}
-        >
-          Confirm Order
-        </Button>
+        {addToCart.length > 0 && <Total addToCart={addToCart} />}
+        {addToCart.length > 0 && (
+          <Button
+            className={
+              "bg-[#C73A0F] text-white w-full rounded-full hover:bg-[#a7310d]"
+            }
+            onClick={setShowModal}
+          >
+            Confirm Order
+          </Button>
+        )}
       </div>
     </div>
   );
