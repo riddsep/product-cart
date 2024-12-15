@@ -9,6 +9,7 @@ function App() {
   const [addToCart, setAddToCart] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlerAddToCart = (product) => {
     if (!product.stock) return;
@@ -67,6 +68,7 @@ function App() {
 
     async function fetchProducts() {
       try {
+        setIsLoading(true);
         const endpoint = query
           ? `https://dummyjson.com/products/search?q=${query}`
           : `https://dummyjson.com/products`;
@@ -74,6 +76,7 @@ function App() {
         const res = await fetch(endpoint, { signal: controller.signal });
         const data = await res.json();
         setProduct(data.products);
+        setIsLoading(false);
       } catch (err) {
         if (err.name !== "AbortError") console.log(err.message);
       }
@@ -94,11 +97,14 @@ function App() {
           addToCart={addToCart}
           onRemove={handlerRemoveFromCart}
           products={products}
+          isLoading={isLoading}
         />
-        <CartProduct
-          addToCart={addToCart}
-          setShowModal={() => setShowModal((curr) => !curr)}
-        />
+        {!isLoading && (
+          <CartProduct
+            addToCart={addToCart}
+            setShowModal={() => setShowModal((curr) => !curr)}
+          />
+        )}
       </div>
       {showModal && (
         <Modal

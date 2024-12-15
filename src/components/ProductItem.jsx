@@ -1,10 +1,20 @@
 import { CircleMinus, CirclePlus } from "lucide-react";
 import { Button } from "./Button";
 
-function ProductItem({ onAddToCart, addToCart, onRemove, products }) {
+function ProductItem({
+  onAddToCart,
+  addToCart,
+  onRemove,
+  products,
+  isLoading,
+}) {
   return (
-    <div>
-      {products.length > 0 ? (
+    <>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[calc(100vh-200px)]">
+          <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-gray-900"></div>
+        </div>
+      ) : products.length > 0 ? (
         <div className="grid grid-cols-3 gap-y-10 gap-x-5">
           {products.map((product) => (
             <div key={product.id}>
@@ -64,7 +74,7 @@ function ProductItem({ onAddToCart, addToCart, onRemove, products }) {
           kata kunci Anda atau jelajahi kategori lain!
         </p>
       )}
-    </div>
+    </>
   );
 }
 
