@@ -20,16 +20,16 @@ function Modal({ setShowModal, addToCart, onOrder }) {
               className="flex justify-between items-center py-2"
             >
               <div className="flex items-center gap-2">
-                <img src={item.images.thumbnail} alt="" className="w-20" />
+                <img src={item.thumbnail} alt="" className="w-20" />
                 <div>
-                  <h2 className="text-sm font-semibold">{item.name}</h2>
+                  <h2 className="text-sm font-semibold">{item.title}</h2>
                   <p className="text-sm text-gray-500">
-                    {item.quantity}x @ ${(item.price / 100).toFixed(2)}
+                    {item.quantity}x @ ${((item.price * 100) / 100).toFixed(2)}
                   </p>
                 </div>
               </div>
-              <span className="text-sm font-bold text-[#C73A0F]">
-                ${((item.price * item.quantity) / 100).toFixed(2)}
+              <span className="text-sm font-bold text-[#00AA5B]">
+                ${((item.price * item.quantity * 100) / 100).toFixed(2)}
               </span>
             </div>
           ))}
@@ -37,11 +37,11 @@ function Modal({ setShowModal, addToCart, onOrder }) {
 
         <div className="mt-4 flex justify-between items-center">
           <h2 className="text-lg font-bold">Total</h2>
-          <span className="text-lg font-bold text-[#C73A0F]">
+          <span className="text-lg font-bold text-[#00AA5B]">
             $
             {addToCart
               .reduce(
-                (acc, curr) => acc + (curr.quantity * curr.price) / 100,
+                (acc, curr) => acc + (curr.quantity * curr.price * 100) / 100,
                 0
               )
               .toFixed(2)}
@@ -50,7 +50,7 @@ function Modal({ setShowModal, addToCart, onOrder }) {
 
         <button
           onClick={onOrder}
-          className="mt-6 bg-[#C73A0F] text-white py-2 px-4 rounded-full w-full hover:bg-[#a7310d]"
+          className="mt-6 bg-[#00AA5B] text-white py-2 px-4 rounded-full w-full hover:bg-[#00AA5B]"
         >
           Start Order
         </button>
