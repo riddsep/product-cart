@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import Modal from "./components/Modal";
 import CartProduct from "./components/CartProduct";
 import ProductList from "./components/ProductList";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [products, setProduct] = useState([]);
   const [addToCart, setAddToCart] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [query, setQuery] = useState("");
 
   const handlerAddToCart = (product) => {
     if (!product.stock) return;
@@ -61,21 +63,31 @@ function App() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchProducts() {
       try {
-        const res = await fetch("https://dummyjson.com/products");
+        const endpoint = query
+          ? `https://dummyjson.com/products/search?q=${query}`
+          : `https://dummyjson.com/products`;
+
+        const res = await fetch(endpoint, { signal: controller.signal });
         const data = await res.json();
         setProduct(data.products);
       } catch (err) {
-        console.log(err);
+        if (err.name !== "AbortError") console.log(err.message);
       }
     }
 
     fetchProducts();
-  }, []);
+    return function () {
+      controller.abort();
+    };
+  }, [query]);
 
   return (
     <>
+      <Navbar query={query} setQuery={setQuery} />
       <div className="flex w-4/5 mx-auto gap-10 my-10">
         <ProductList
           onAddToCart={handlerAddToCart}
